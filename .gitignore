@@ -1,0 +1,8 @@
+*.pyc
+__pycache__/
+_build/
+build/
+.venv/
+.webdriver_profile/
+datasheets/
+*.db
