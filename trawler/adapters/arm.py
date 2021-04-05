@@ -109,7 +109,7 @@ def extract_datasheet(driver, ds):
 		driver.find_element_by_xpath('/html/body/div/div/div[2]/main/div/div[1]/div/div/div[1]/div/button').click()
 		dl_loc = driver.find_element_by_xpath('/html/body/div/div/div[2]/main/div/div[1]/div/div/div[1]/div[2]/a')
 	except:
-		terr(f'  => Error: Unable to extract datasheet')
+		terr(f'  => Error: Unable to extract datasheet with id {ds.id}')
 		return False
 
 	ds.url = dl_loc.get_attribute('href')
