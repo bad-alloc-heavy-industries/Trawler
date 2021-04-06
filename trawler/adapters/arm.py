@@ -82,15 +82,7 @@ def download_datasheet(dl_dir, ds):
 			ds.dl_location = path.join(dl_dir, fname)
 			ds.save()
 			with open(ds.dl_location, 'wb') as file:
-					with tqdm(
-							unit = 'B', unit_scale = True,
-							unit_divisor = 1024, miniters = 1,
-							desc = fname, total = int(r.headers.get('content-length', 0))
-
-						) as bar:
-							for chnk in r.iter_content(chunk_size = 4096):
-								file.write(chunk)
-								bar.update(len(chunk))
+				file.write(r.content)
 
 			ds.downloaded = True
 			ds.save()
@@ -220,9 +212,16 @@ def adapter_main(args, driver, dl_dir):
 					bar.set_description(ds.title)
 					if extract_datasheet(driver, ds):
 						bar.update(1)
-
+	driver.close()
 	if not args.skip_download:
-		for ds in tqdm(Datasheet.where('url', '!=', 'NULL').get()):
-			download_datasheet(dl_dir, ds)
+		sheets = Datasheet.where('url', '!=', 'NULL').get()
+		with tqdm(
+				miniters = 1, total = len(sheets),
+			) as bar:
+				for ds in sheets:
+					bar.set_description(ds.title)
+					if download_datasheet(dl_dir, ds):
+						bar.update(1)
+
 
 	return 0
