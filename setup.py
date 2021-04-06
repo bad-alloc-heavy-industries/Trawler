@@ -15,6 +15,7 @@ setup(
 		'selenium',
 		'orator',
 		'beautifulsoup4',
+		'lxml'
 	],
 	packages = find_packages(),
 	project_urls = {

@@ -3,3 +3,4 @@ tqdm
 selenium
 orator
 beautifulsoup4
+lxml
