@@ -14,6 +14,7 @@ setup(
 		'tqdm',
 		'selenium',
 		'orator',
+		'beautifulsoup4',
 	],
 	packages = find_packages(),
 	project_urls = {
