@@ -81,6 +81,7 @@ def download_datasheet(dl_dir, ds):
 			ds.filename = fname
 			ds.dl_location = path.join(dl_dir, fname)
 			ds.save()
+			tlog(f'    ==> Saving {fname} to {ds.dl_location}')
 			with open(ds.dl_location, 'wb') as file:
 				file.write(r.content)
 
