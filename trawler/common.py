@@ -7,7 +7,7 @@ from tqdm import tqdm
 __all__ = (
 	'log', 'err', 'wrn', 'inf', 'dbg',
 	'tlog', 'terr', 'twrn', 'tinf', 'tdbg',
-	'fixup_title', 'download_resource'
+	'fixup_title',
 )
 
 def log(str, end = '\n', file = sys.stdout):
@@ -53,32 +53,3 @@ def fixup_title(s):
 		return f'{s}{" "*(18 - len(s))}'
 	else:
 		return f'{s[:15]}...'
-
-def download_resource(dl_dir, ds):
-	import requests
-	from requests import utils
-	from os import path
-
-	tlog(f'  => Downloading {ds.title} ({ds.id})')
-	try:
-		with requests.get(ds.url, allow_redirects = True) as r:
-			fname = ''
-			if 'content-disposition' in r.headers.keys():
-				fname = re.findall('filename=(.*)', r.headers['content-disposition'])[0]
-			else:
-				fname = ds.url.split('/')[-1]
-
-			ds.filename = fname
-			if not ds.dl_location.endswith(fname):
-				ds.dl_location = path.join(ds.dl_location, fname)
-			ds.save()
-			tlog(f'    ==> Saving {fname} to {ds.dl_location}')
-			with open(ds.dl_location, 'wb') as file:
-				file.write(r.content)
-
-			ds.downloaded = True
-			ds.save()
-	except:
-		terr(f'  => Unable to download datasheet with id {ds.id}')
-		return False
-	return True

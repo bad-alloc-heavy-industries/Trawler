@@ -175,16 +175,17 @@ def docnav_runner(args, dl_dir):
 				for ds in sheets:
 					bar.set_description(fixup_title(ds.title))
 					if ds.url[-4:] == 'html' and args.xilinx_get_web_only:
-						if download_resource(dl_dir, ds):
+						if download_resource(dl_dir, ds, timeout = args.timeout, retry = args.retry, delay = args.delay):
 							bar.update(1)
 					else:
-						if download_resource(dl_dir, ds):
+						if download_resource(dl_dir, ds, timeout = args.timeout, retry = args.retry, delay = args.delay):
 							bar.update(1)
 
 	sc.last_run = datetime.now()
 	sc.save()
 
 	return 0
+
 
 def parser_init(parser):
 	xilinx_options = parser.add_argument_group('Xilinx adapter options')

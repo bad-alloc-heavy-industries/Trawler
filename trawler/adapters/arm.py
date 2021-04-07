@@ -10,7 +10,6 @@ This script is designed to scrape all of the datasheets from https://developer.a
 import sys
 import time
 import enum
-import re
 
 from enum import Enum, Flag
 from os import getcwd, path, mkdir
@@ -23,6 +22,7 @@ from tqdm import tqdm
 from selenium import webdriver
 
 from ..common import *
+from ..net import download_resource
 from ..db import Datasheet, DatasheetTag, Scraper
 
 @enum.unique
@@ -198,7 +198,7 @@ def adapter_main(args, driver, dl_dir):
 			) as bar:
 				for ds in sheets:
 					bar.set_description(fixup_title(ds.title))
-					if download_resource(dl_dir, ds):
+					if download_resource(dl_dir, ds, timeout = args.timeout, retry = args.retry, delay = args.delay):
 						bar.update(1)
 
 
