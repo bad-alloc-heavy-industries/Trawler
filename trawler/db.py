@@ -48,7 +48,7 @@ class CreateDatasheetTable(Migration):
 		with self.schema.create('datasheets') as table:
 			table.increments('id').unique()
 			table.integer('scraper_id').unsigned()
-			table.foreign('scraper_id').references('id').on('scrapers')
+			table.foreign('scraper_id').references('id').on('scrapers').on_delete('cascade')
 			table.string('title').nullable()
 			table.string('url').nullable()
 			table.string('src').nullable()
@@ -79,7 +79,7 @@ class CreateDatasheetTagTable(Migration):
 		with self.schema.create('datasheet_tags') as table:
 			table.increments('id').unique()
 			table.integer('scraper_id').unsigned()
-			table.foreign('scraper_id').references('id').on('scrapers')
+			table.foreign('scraper_id').references('id').on('scrapers').on_delete('cascade')
 			table.string('name')
 			table.timestamps()
 
@@ -91,9 +91,9 @@ class CreateTagLinkTable(Migration):
 		with self.schema.create('tag_links') as table:
 			table.increments('id').unique()
 			table.integer('tag_id').unsigned()
-			table.foreign('tag_id').references('id').on('datasheet_tags')
+			table.foreign('tag_id').references('id').on('datasheet_tags').on_delete('cascade')
 			table.integer('datasheet_id').unsigned()
-			table.foreign('datasheet_id').references('id').on('datasheets')
+			table.foreign('datasheet_id').references('id').on('datasheets').on_delete('cascade')
 			table.timestamps()
 
 	def down(self):
