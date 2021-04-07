@@ -38,7 +38,7 @@ def collect_datasheets(dl_dir):
 	log('Collecting datasheets... this might take a while')
 
 	with requests.get(USB_DOCS_ALL) as r:
-		soup = BeautifulSoup(r.content, 'html.parser')
+		soup = BeautifulSoup(r.content, 'lxml')
 
 		# We assume that there is only one table on this page, I know I know
 		doc_tab = soup.find('table').find('tbody')
