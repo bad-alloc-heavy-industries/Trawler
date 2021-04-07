@@ -229,14 +229,24 @@ def main():
 	if args.webdriver == config.WebdriverBackend.Chrome:
 		wd_opts = webdriver.chrome.options.Options()
 		wd = webdriver.Chrome
+
+		wd_opts.add_argument(f'user-data-dir={args.profile_directory}')
+
 		if args.headless:
 			wd_opts.add_argument('--headless')
 			wd_opts.add_argument(f'--window-size={args.headless_width},{args.headless_height}')
+
+
 	elif args.webdriver == config.WebdriverBackend.FireFox:
 		wd = webdriver.Firefox
 		wd_opts = webdriver.firefox.options.Options()
+
+		wd_profile = webdriver.firefox.firefox_profile.FirefoxProfile(args.profile_directory)
+		wd_opts.profile = wd_profile
+
 		if args.headless:
 			wd_opts.headless = True
+
 	else:
 		err('Unknown WebDriver, what?')
 		return 1
