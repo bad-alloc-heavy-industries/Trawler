@@ -277,6 +277,6 @@ def main():
 
 	# Actually run the adapter
 	if adpt['is_meta']:
-		return adpr['maim'](args, dl_dir)
+		return adpt['main'](args, dl_dir)
 	else:
 		return adpt['main'](args, wd, wd_opts, dl_dir)
