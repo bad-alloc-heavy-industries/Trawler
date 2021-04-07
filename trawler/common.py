@@ -69,7 +69,8 @@ def download_resource(dl_dir, ds):
 			fname = ds.url.split('/')[-1]
 
 		ds.filename = fname
-		ds.dl_location = path.join(ds.dl_location, fname)
+		if not ds.dl_location.endswith(fname):
+			ds.dl_location = path.join(ds.dl_location, fname)
 		ds.save()
 		tlog(f'    ==> Saving {fname} to {ds.dl_location}')
 		with open(ds.dl_location, 'wb') as file:
