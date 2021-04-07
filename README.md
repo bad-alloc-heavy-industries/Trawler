@@ -25,8 +25,10 @@ If there is not an adapter in this list you want, feel free to open an issue or 
 
 ### Meta Adapters
 
-The following meta adapters are planned:
+The following meta adapters are implemented currently:
  * `zorero` - Integration and sync with a local [Zotero](https://www.zotero.org/) install
+ 
+The following meta adapters are planned:
  * `query` - Very trivial datasheet lookup by title / tag
  * `export` - Export cache information in various formats
 
@@ -73,7 +75,6 @@ The following settings are used for the WebDriver, and therefore only effect the
 The following settings are only applicable to the ARM adapter:
  * `--arm-document-type / -A` - Specify the types of documents to collect and download.
 
-
 ### Xilinx Adapter Settings
 
 The following settings are only applicable to the Xilinx adapter:
@@ -84,7 +85,16 @@ The following settings are only applicable to the Xilinx adapter:
 
 The following settings are only applicable to the Zotero meta adapter:
  * `--zotero-db-location` - Specify the location of the Zotero database if it's not the default.
- * `--zotero-sync` - Preform the sync from Trawler to Zotero
+
+
+The Zotero has the following actions it can take:
+ * `sync` - Sync the Trawler cache with the Zotero database.
+
+#### Zotero Sync Settings
+
+The Zotero sync action has the following settings:
+ * `--backup` - Backup the Zotero database before performing the sync.
+ * `--backup-dir` - Set the backup directory for the Zotero database.
 
 ## Installing
 
