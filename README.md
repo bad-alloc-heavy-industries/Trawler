@@ -54,6 +54,8 @@ The following settings are used for the WebDriver, and therefore only effect the
  * `--profile-directory / -p` - Specify the WebDriver profile directory.
  * `--webdriver / -w` - Specify the WebDriver to use.
  * `--headless / -H` - Tell the WebDriver to run in headless mode.
+ * `--headless-width / -X` - Specify the virtual width of the WebDriver instance.
+ * `--headless-height / -Y` - Specify the virtual hight of the WebDriver instance.
 
 ### ARM Adapter Settings
 
@@ -81,6 +83,10 @@ git clone https://github.com/bad-alloc-heavy-industries/Trawler.git
 cd Trawler
 pip3 install --user --editable '.''
 ```
+
+## Important Notes
+
+ * Some adapters won't work if the WebDriver viewport is smaller than 1920x1080, you can possibly fix this by running the WebDriver headless with the correct virtual size if the WebDriver supports it.
 
 ## License
 Trawler is licensed under the [BSD 3-Clause](https://spdx.org/licenses/BSD-3-Clause.html) license, the full text of which can be found in the [`LICENSE`](LICENSE) file.
