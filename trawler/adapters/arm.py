@@ -68,32 +68,6 @@ ADAPTER_DESC = 'arm datasheet adapter'
 ARM_DOCS_ROOT_URL = 'https://developer.arm.com/documentation'
 
 
-def download_datasheet(dl_dir, ds):
-	tlog(f'  => Downloading {ds.title} ({ds.id})')
-	try:
-		with requests.get(ds.url, allow_redirects = True) as r:
-			fname = ''
-			if 'content-disposition' in r.headers.keys():
-				fname = re.findall('filename=(.*)', r.headers['content-disposition'])[0]
-			else:
-				fname = ds.url.split('/')[-1]
-
-			ds.filename = fname
-			ds.dl_location = path.join(dl_dir, fname)
-			ds.save()
-			tlog(f'    ==> Saving {fname} to {ds.dl_location}')
-			with open(ds.dl_location, 'wb') as file:
-				file.write(r.content)
-
-			ds.downloaded = True
-			ds.save()
-	except:
-		terr(f'  => Unable to download datasheet with id {ds.id}')
-		return False
-	return True
-
-
-
 def extract_datasheet(driver, ds):
 	tlog(f'  => Extracting datasheet {ds.id} from {ds.src}')
 	driver.get(ds.src)
