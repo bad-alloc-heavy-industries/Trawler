@@ -301,7 +301,7 @@ def main():
 
 	# Initialize the adapter download directory
 	dl_dir = os.path.join(args.output, adpt['name'])
-	if not os.path.exists(dl_dir):
+	if not os.path.exists(dl_dir) and not adpt['is_meta']:
 		wrn(f'Adapter datasheet directory {dl_dir} does not exist, creating...')
 		os.mkdir(dl_dir)
 
