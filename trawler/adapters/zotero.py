@@ -331,7 +331,8 @@ def parser_init(parser):
 	)
 
 	zotero_actions = parser.add_subparsers(
-		dest = 'zotero_action'
+		dest = 'zotero_action',
+		required = True
 	)
 
 	zsync = zotero_actions.add_parser('sync', help = 'Sync Zotero with Trawler')
@@ -361,6 +362,6 @@ def adapter_main(args, dl_dir):
 	wrn('This will lock the Zotero database, ensure that Zotero is not being used!')
 
 	# Invoke the given action
-	act = ZOTERO_ACTIONS.get(args.zotero_action, lambda: 1)
+	act = ZOTERO_ACTIONS.get(args.zotero_action, lambda a: 1)
 	return act(args, dl_dir)
 
