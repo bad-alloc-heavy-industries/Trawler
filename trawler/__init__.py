@@ -136,6 +136,13 @@ def main():
 		help = 'Skip the datasheet extraction stage'
 	)
 
+	scraper_options.add_argument(
+		'--update-schema', '-U',
+		default = False,
+		action = 'store_true',
+		help = 'Update the trawler cache schema.'
+	)
+
 	wd_options = parser.add_argument_group('Selenium WebDriver Settings')
 
 	wd_options.add_argument(
@@ -205,7 +212,7 @@ def main():
 
 	# Initialize the Database
 	dbc = config.DATABASE
-	dbc['sqlite']['database'] = args.cache_database
+	dbc['trawler_cache']['database'] = args.cache_database
 
 	dbm = DatabaseManager(config.DATABASE)
 	Model.set_connection_resolver(dbm)
@@ -213,6 +220,10 @@ def main():
 	if not os.path.exists(args.cache_database):
 		common.wrn('Cache database does not exists, creating')
 		db.run_migrations(dbm)
+	else:
+		# Check the DB schema and update it if need be
+		db.check_schema(dbm)
+
 	inf(f'Cache database located at {args.cache_database}')
 
 	# Initialize the datasheet directory
@@ -259,6 +270,8 @@ def main():
 		except:
 			s = db.Scraper()
 			s.name = adapter['name']
+			if adapter['is_meta']:
+				s.meta = True
 			s.save()
 
 	# Get the adapter we need to run

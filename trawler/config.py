@@ -20,6 +20,8 @@ class WebdriverBackend(Enum):
 
 # ==== Various constants ==== #
 TRAWLER_NAME = 'trawler'
+TRAWLER_VERSION = 'v0.2'
+TRAWLER_SCHEMA_VERSION = 1
 
 # ==== Directories ==== #
 XDG_CACHE_DIR = os.path.join(os.path.expanduser('~'), '.cache') if 'XDG_CACHE_HOME' not in os.environ else os.environ['XDG_CACHE_HOME']
@@ -46,10 +48,10 @@ DEFAULT_WEBDRIVER = WebdriverBackend.Chrome
 DEFAULT_WD_HEADLESS = False
 DEFAULT_WD_HEADLESS_RES = (1920, 1080)
 
-
 # ==== Database Settings ==== #
 DATABASE = {
-	'sqlite': {
+	'default': 'trawler_cache',
+	'trawler_cache': {
 		'driver': 'sqlite',
 		'database': DEFAULT_DATABASE,
 	}
