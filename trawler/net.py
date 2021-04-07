@@ -13,8 +13,34 @@ from .common import *
 
 
 __all__ = (
-	'download_resource'
+	'download_resource', 'get_content'
 )
+
+def get_content(url, args):
+	try_count = 0
+	while try_count < args.retry:
+		try:
+			if args.delay > 0:
+				time.sleep(args.delay)
+
+			with requests.get(
+				url,
+				allow_redirects = True,
+				timeout = args.timeout,
+				headers = {
+					'User-Agent': args.user_agent
+				}
+			) as r:
+				return r.content
+
+		except Exception as e:
+			if isinstance(e, KeyboardInterrupt):
+				sys.quit()
+			else:
+				try_count += 1
+
+	if try_count != 0:
+		return False
 
 def download_resource(dl_dir, ds, args):
 	tlog(f'  => Downloading {ds.title} ({ds.id})')

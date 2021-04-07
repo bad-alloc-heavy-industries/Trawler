@@ -21,7 +21,7 @@ from tqdm import tqdm
 from selenium import webdriver
 
 from ..common import *
-from ..net import download_resource
+from ..net import download_resource, get_content
 from ..db import Datasheet, DatasheetTag, Scraper
 
 from bs4 import BeautifulSoup
@@ -33,47 +33,47 @@ XILINX_DOCNAV_ROOT = 'https://xilinx.com/support/documentation/navigator'
 XILINX_HUBS_INDEX = f'{XILINX_DOCNAV_ROOT}/xhubs.xml'
 XILINX_DOCS_INDEX = f'{XILINX_DOCNAV_ROOT}/xdocs.xml'
 
-def docnav_collect_docs():
+def docnav_collect_docs(args):
 	log(f'Downloading doc index from {XILINX_DOCS_INDEX}')
 	catalogs = []
-	with requests.get(XILINX_DOCS_INDEX) as r:
-		soup = BeautifulSoup(r.content, "xml")
-		for catalog in soup.find_all('catalog'):
-			# ニャ！
-			cat = {
-				'catalog': catalog['label'],
-				'product': catalog['productName'],
-				'collection': catalog['collection'],
-				'groups': []
+	content = get_content(XILINX_DOCS_INDEX, args)
+	soup = BeautifulSoup(content, 'lxml')
+	for catalog in soup.find_all('catalog'):
+		# ニャ！
+		cat = {
+			'catalog': catalog['label'],
+			'product': catalog['productName'] if 'productName' in catalog else catalog['productname'],
+			'collection': catalog['collection'],
+			'groups': []
+		}
+
+		inf(f'  => Found catalog {cat["catalog"]}')
+		for group in catalog.find_all('group'):
+			grp = {
+				'title': group['label'],
+				'docs': []
 			}
 
-			inf(f'  => Found catalog {cat["catalog"]}')
-			for group in catalog.find_all('group'):
-				grp = {
-					'title': group['label'],
-					'docs': []
-				}
+			inf(f'      => Found group {grp["title"]}')
+			for doc in group.find_all('document'):
+				title = doc.find('title')
+				loc = doc.find('webLocation')
+				doc_id = doc.find('docID')
+				doc_type = doc.find('docType')
+				desc = doc.find('tooltip')
+				tags = doc.find('functionTags')
 
-				inf(f'      => Found group {grp["title"]}')
-				for doc in group.find_all('document'):
-					title = doc.find('title')
-					loc = doc.find('webLocation')
-					doc_id = doc.find('docID')
-					doc_type = doc.find('docType')
-					desc = doc.find('tooltip')
-					tags = doc.find('functionTags')
+				grp['docs'].append({
+					'title': title.get_text() if title is not None else '',
+					'location': loc.get_text() if loc is not None  else '',
+					'doc_id': doc_id.get_text()  if doc_id is not None else '',
+					'type': doc_type.get_text() if doc_type is not None  else '',
+					'desc': desc.get_text() if desc is not None else '',
+					'tags': tags.get_text().split(',') if tags is not None else [],
+				})
 
-					grp['docs'].append({
-						'title': title.get_text() if title is not None else '',
-						'location': loc.get_text() if loc is not None  else '',
-						'doc_id': doc_id.get_text()  if doc_id is not None else '',
-						'type': doc_type.get_text() if doc_type is not None  else '',
-						'desc': desc.get_text() if desc is not None else '',
-						'tags': tags.get_text().split(',') if tags is not None else [],
-					})
-
-				cat['groups'].append(grp)
-			catalogs.append(cat)
+			cat['groups'].append(grp)
+		catalogs.append(cat)
 
 	return catalogs
 
@@ -158,7 +158,7 @@ def docnav_runner(args, dl_dir):
 	sc = Scraper.where('name', '=', ADAPTER_NAME).first_or_fail()
 
 	if not args.skip_collect:
-		docs = docnav_collect_docs()
+		docs = docnav_collect_docs(args)
 		if docs is None:
 			err('Unable to collect Xilinx hubs')
 			return 1
@@ -186,9 +186,34 @@ def docnav_runner(args, dl_dir):
 
 	return 0
 
+def web_runner(args, driver, dl_dir):
+	inf('Downloading datasheets from web')
+	sc_id = Scraper.where('name', '=', ADAPTER_NAME).first_or_fail().id
+
+	if not args.skip_collect:
+		collect_datasheets(driver, args.arm_document_type)
+
+	if not args.skip_extract:
+		for ds in tqdm(Datasheet.all()):
+			extract_datasheet(driver, ds)
+
+	if not args.skip_download:
+		for ds in tqdm(Datasheet.where('url', '!=', 'NULL').get()):
+			download_datasheet(dl_dir, ds)
+
+	return 0
 
 def parser_init(parser):
 	xilinx_options = parser.add_argument_group('Xilinx adapter options')
+
+	xilinx_options.add_argument(
+		'--document-source', '-d',
+		dest = 'xilinx_doc_source',
+		type = DocumentSource.from_string,
+		choices = list(DocumentSource),
+		default = 'DocNav',
+		help = 'Documentation Source'
+	)
 
 	xilinx_options.add_argument(
 		'--dont-group', '-G',
