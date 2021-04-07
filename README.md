@@ -9,15 +9,26 @@ Trawler is built around selenium, which allows us to pretend to be a user and le
 
 ## Adapters
 
-The following adapters are included with Trawler:
+Trawler has two types of adapters, source adapters, and meta adapters. The source adapters are responsible for the collection and download of datasheets, where as the meta adapters are for interacting with the cache data Trawler has.
+
+### Source Adapters
+
+The following source adapters are included with Trawler:
  * `arm` - Download documentation from `https://developer.arm.com/documentation`
  * `xilinx` - Download the documentation from the Xilinx DocNav service
 
-The following adapters are planned:
+The following source adapters are planned:
  * `usb-if` - Download the documentation from `https://www.usb.org/documents`
  * `renasas` - Download the documentation from `https://www.renesas.com/us/en/support/document-search`
 
 If there is not an adapter in this list you want, feel free to open an issue or contribute it yourself!
+
+### Meta Adapters
+
+The following meta adapters are planned:
+ * `zorero` - Integration and sync with a local [Zotero](https://www.zotero.org/) install
+ * `query` - Very trivial datasheet lookup by title / tag
+ * `export` - Export cache information in various formats
 
 ## Usage
 

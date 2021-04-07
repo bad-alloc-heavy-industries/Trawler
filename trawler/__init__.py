@@ -52,7 +52,8 @@ def _collect_adapters():
 					'name': getattr(adapters, name).ADAPTER_NAME,
 					'description': getattr(adapters, name).ADAPTER_DESC,
 					'parser_init': getattr(adapters, name).parser_init,
-					'main': getattr(adapters, name).adapter_main
+					'main': getattr(adapters, name).adapter_main,
+					'is_meta': hasattr(getattr(adapters, name), 'META_ADAPTER'),
 				})
 	# Load the adapters from the share
 	# TODO: this
@@ -275,4 +276,7 @@ def main():
 		os.mkdir(dl_dir)
 
 	# Actually run the adapter
-	return adpt['main'](args, wd, wd_opts, dl_dir)
+	if adpt['is_meta']:
+		return adpr['maim'](args, dl_dir)
+	else:
+		return adpt['main'](args, wd, wd_opts, dl_dir)
