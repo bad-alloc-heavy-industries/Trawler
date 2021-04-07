@@ -157,6 +157,13 @@ def main():
 		help = 'Skip downloading executables'
 	)
 
+	scraper_options.add_argument(
+		'--user-agent', '-A',
+		type = str,
+		default = config.DEFAULT_USER_AGENT,
+		help = 'Specify the user-agent to use'
+	)
+
 	wd_options = parser.add_argument_group('Selenium WebDriver Settings')
 
 	wd_options.add_argument(

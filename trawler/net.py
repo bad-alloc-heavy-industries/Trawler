@@ -16,17 +16,21 @@ __all__ = (
 	'download_resource'
 )
 
-def download_resource(dl_dir, ds, timeout = config.DEFAULT_TIMEOUT, retry = config.DEFAULT_RETRY_COUNT, delay = config.DEFAULT_DOWNLOAD_DELAY):
+def download_resource(dl_dir, ds, args):
 	tlog(f'  => Downloading {ds.title} ({ds.id})')
 	try_count = 0
-	while try_count < retry:
+	while try_count < args.retry:
 		try:
-			if delay > 0:
-				time.sleep(delay)
+			if args.delay > 0:
+				time.sleep(args.delay)
 
 			with requests.get(
 				ds.url,
-				allow_redirects = True, timeout = timeout
+				allow_redirects = True,
+				timeout = args.timeout,
+				headers = {
+					'User-Agent': args.user_agent
+				}
 			) as r:
 				fname = ''
 				if 'content-disposition' in r.headers.keys():

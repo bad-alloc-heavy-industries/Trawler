@@ -39,9 +39,8 @@ DEFAULT_OUTPUT_DIR = TRAWLER_DL_DIR
 DEFAULT_TIMEOUT = 120
 DEFAULT_RETRY_COUNT = 3
 DEFAULT_DOWNLOAD_DELAY = 3
-# TODO: Make use of these settings
 DEFAULT_PROFILE_DIRECTORY = os.path.join(TRAWLER_CACHE, '.webdriver_profile')
-# END TODO
+DEFAULT_USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:59.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.9999.9999 Safari/537.36'
 
 DEFAULT_DATABASE = os.path.join(TRAWLER_CACHE, 'datasheets.db')
 DEFAULT_WEBDRIVER = WebdriverBackend.Chrome

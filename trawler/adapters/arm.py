@@ -201,7 +201,7 @@ def adapter_main(args, driver, driver_options, dl_dir):
 			) as bar:
 				for ds in sheets:
 					bar.set_description(fixup_title(ds.title))
-					if download_resource(dl_dir, ds, timeout = args.timeout, retry = args.retry, delay = args.delay):
+					if download_resource(dl_dir, ds, args):
 						bar.update(1)
 
 
