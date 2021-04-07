@@ -27,7 +27,7 @@ If there is not an adapter in this list you want, feel free to open an issue or 
 
 The following meta adapters are implemented currently:
  * `zorero` - Integration and sync with a local [Zotero](https://www.zotero.org/) install
- 
+
 The following meta adapters are planned:
  * `query` - Very trivial datasheet lookup by title / tag
  * `export` - Export cache information in various formats
@@ -108,7 +108,7 @@ Or to install a local development copy:
 ```
 git clone https://github.com/bad-alloc-heavy-industries/Trawler.git
 cd Trawler
-pip3 install --user --editable '.''
+pip3 install --user --editable '.'
 ```
 
 ## Important Notes
