@@ -214,12 +214,12 @@ def adapter_main(args, driver, dl_dir):
 						bar.update(1)
 	driver.close()
 	if not args.skip_download:
-		sheets = Datasheet.where('url', '!=', 'NULL').get()
+		sheets = Datasheet.where('url', '!=', 'NULL').where('scraper_id', '=', sc_id).get()
 		with tqdm(
 				miniters = 1, total = len(sheets),
 			) as bar:
 				for ds in sheets:
-					bar.set_description(ds.title)
+					bar.set_description(fixup_title(ds.title))
 					if download_datasheet(dl_dir, ds):
 						bar.update(1)
 
