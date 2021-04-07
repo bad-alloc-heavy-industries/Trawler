@@ -137,10 +137,24 @@ def main():
 	)
 
 	scraper_options.add_argument(
-		'--update-schema', '-U',
+		'--skip-archives',
 		default = False,
 		action = 'store_true',
-		help = 'Update the trawler cache schema.'
+		help = 'Skip downloading archives'
+	)
+
+	scraper_options.add_argument(
+		'--extract-archives',
+		default = False,
+		action = 'store_true',
+		help = 'Extract downloaded archives and attempt to index them'
+	)
+
+	scraper_options.add_argument(
+		'--skip-executables',
+		default = False,
+		action = 'store_true',
+		help = 'Skip downloading executables'
 	)
 
 	wd_options = parser.add_argument_group('Selenium WebDriver Settings')

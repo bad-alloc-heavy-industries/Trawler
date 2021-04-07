@@ -8,6 +8,17 @@ __all__ = (
 	'log', 'err', 'wrn', 'inf', 'dbg',
 	'tlog', 'terr', 'twrn', 'tinf', 'tdbg',
 	'fixup_title',
+
+	'EXECUTABLE_EXTS', 'ARCHIVE_EXTS'
+)
+
+EXECUTABLE_EXTS = (
+	'exe', 'msi',
+)
+
+ARCHIVE_EXTS = (
+	'tar', 'gz', 'bz2', 'xz', 'zip',
+	'lzma', '7z',
 )
 
 def log(str, end = '\n', file = sys.stdout):
