@@ -10,7 +10,6 @@ This script is designed to scrape all of the datasheets from xilinx.com
 import sys
 import time
 import enum
-import re
 
 from enum import Enum, Flag
 from os import getcwd, path, mkdir
@@ -23,6 +22,7 @@ from tqdm import tqdm
 from selenium import webdriver
 
 from ..common import *
+from ..net import download_resource
 from ..db import Datasheet, DatasheetTag, Scraper
 
 from bs4 import BeautifulSoup
