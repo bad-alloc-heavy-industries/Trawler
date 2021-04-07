@@ -80,6 +80,12 @@ The following settings are only applicable to the Xilinx adapter:
  * `--dont-group / -G` - Don't group Datasheets into categories and groups when downloading.
  * `--collect-web-only / -W` - Allow Trawler to collect the web-only content.
  
+### Zotero Adapter Settings
+
+The following settings are only applicable to the Zotero meta adapter:
+ * `--zotero-db-location` - Specify the location of the Zotero database if it's not the default.
+ * `--zotero-sync` - Preform the sync from Trawler to Zotero
+
 ## Installing
 
 With pip, all the needed dependencies for Trawler should be pulled in automatically

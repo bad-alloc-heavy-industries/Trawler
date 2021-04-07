@@ -214,6 +214,9 @@ def main():
 	dbc = config.DATABASE
 	dbc['trawler_cache']['database'] = args.cache_database
 
+	if args.adapter == 'zotero':
+		dbc['zotero']['database'] = args.zotero_db_loc
+
 	dbm = DatabaseManager(config.DATABASE)
 	Model.set_connection_resolver(dbm)
 

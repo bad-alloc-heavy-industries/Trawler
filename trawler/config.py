@@ -48,11 +48,19 @@ DEFAULT_WEBDRIVER = WebdriverBackend.Chrome
 DEFAULT_WD_HEADLESS = False
 DEFAULT_WD_HEADLESS_RES = (1920, 1080)
 
+# ==== Zotero Stuff ==== #
+ZOTERO_ROOT = os.path.join(os.path.expanduser('~'), 'Zotero')
+ZOTERO_DB = os.path.join(ZOTERO_ROOT, 'zotero.sqlite')
+
 # ==== Database Settings ==== #
 DATABASE = {
 	'default': 'trawler_cache',
 	'trawler_cache': {
 		'driver': 'sqlite',
 		'database': DEFAULT_DATABASE,
+	},
+	'zotero': {
+		'driver': 'sqlite',
+		'database': ZOTERO_DB,
 	}
 }
