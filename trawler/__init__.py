@@ -235,7 +235,8 @@ def main():
 	elif args.webdriver == config.WebdriverBackend.FireFox:
 		wd = webdriver.Firefox
 		wd_opts = webdriver.firefox.options.Options()
-
+		if args.headless:
+			wd_opts.headless = True
 	else:
 		err('Unknown WebDriver, what?')
 		return 1
