@@ -60,25 +60,25 @@ def download_resource(dl_dir, ds):
 	from os import path
 
 	tlog(f'  => Downloading {ds.title} ({ds.id})')
-	# try:
-	with requests.get(ds.url, allow_redirects = True) as r:
-		fname = ''
-		if 'content-disposition' in r.headers.keys():
-			fname = re.findall('filename=(.*)', r.headers['content-disposition'])[0]
-		else:
-			fname = ds.url.split('/')[-1]
+	try:
+		with requests.get(ds.url, allow_redirects = True) as r:
+			fname = ''
+			if 'content-disposition' in r.headers.keys():
+				fname = re.findall('filename=(.*)', r.headers['content-disposition'])[0]
+			else:
+				fname = ds.url.split('/')[-1]
 
-		ds.filename = fname
-		if not ds.dl_location.endswith(fname):
-			ds.dl_location = path.join(ds.dl_location, fname)
-		ds.save()
-		tlog(f'    ==> Saving {fname} to {ds.dl_location}')
-		with open(ds.dl_location, 'wb') as file:
-			file.write(r.content)
+			ds.filename = fname
+			if not ds.dl_location.endswith(fname):
+				ds.dl_location = path.join(ds.dl_location, fname)
+			ds.save()
+			tlog(f'    ==> Saving {fname} to {ds.dl_location}')
+			with open(ds.dl_location, 'wb') as file:
+				file.write(r.content)
 
-		ds.downloaded = True
-		ds.save()
-	# except:
-	# 	terr(f'  => Unable to download datasheet with id {ds.id}')
-	# 	return False
-	# return True
+			ds.downloaded = True
+			ds.save()
+	except:
+		terr(f'  => Unable to download datasheet with id {ds.id}')
+		return False
+	return True
