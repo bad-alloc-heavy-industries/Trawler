@@ -13,7 +13,6 @@ def _init_directories():
 		config.TRAWLER_CACHE,
 		# Sub directories
 		config.TRAWLER_USER_ADAPTERS,
-		config.TRAWLER_DL_DIR,
 	)
 
 	for d in dirs:
@@ -183,6 +182,11 @@ def main():
 
 	# Actually parse the arguments
 	args = parser.parse_args()
+
+	# Initialize the download directory if not done so
+	if not os.path.exists(args.output):
+		wrn(f'Output directory {args.output} does not exist, creating')
+		os.mkdirs(args.output)
 
 	# Initialize the Database
 	dbc = config.DATABASE
