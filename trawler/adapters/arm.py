@@ -190,7 +190,7 @@ def adapter_main(args, driver, driver_options, dl_dir):
 						miniters = 1, total = len(sheets),
 					) as bar:
 						for ds in sheets:
-							bar.set_description(ds.title)
+							bar.set_description(fixup_title(ds.title))
 							if extract_datasheet(wd, ds):
 								bar.update(1)
 
