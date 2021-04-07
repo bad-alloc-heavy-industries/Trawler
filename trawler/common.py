@@ -6,7 +6,8 @@ from tqdm import tqdm
 
 __all__ = (
 	'log', 'err', 'wrn', 'inf', 'dbg',
-	'tlog', 'terr', 'twrn', 'tinf', 'tdbg'
+	'tlog', 'terr', 'twrn', 'tinf', 'tdbg',
+	'fixup_title'
 )
 
 def log(str, end = '\n', file = sys.stdout):
@@ -46,3 +47,9 @@ def recusive_zip(d, u):
 		else:
 			d[k] = v
 	return d
+
+def fixup_title(s):
+	if len(s) < 18:
+		return f'{s}{" "*(18 - len(s))}'
+	else:
+		return f'{s[:15]}...'
