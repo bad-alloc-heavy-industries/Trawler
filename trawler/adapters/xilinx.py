@@ -138,18 +138,19 @@ def docnav_populate(args, docs, dl_dir):
 				ds.add_tag(cat_tag)
 				ds.add_tag(grp_tag)
 				for tag in doc['tags']:
-					try:
-						ds_tag = DatasheetTag \
-								.where('scraper_id', '=', sc_id) \
-								.where('name', '=', tag) \
-								.first_or_fail()
-					except:
-						ds_tag = DatasheetTag()
-						ds_tag.scraper_id = sc_id
-						ds_tag.name = tag
-						ds_tag.save()
+					if tag != '':
+						try:
+							ds_tag = DatasheetTag \
+									.where('scraper_id', '=', sc_id) \
+									.where('name', '=', tag) \
+									.first_or_fail()
+						except:
+							ds_tag = DatasheetTag()
+							ds_tag.scraper_id = sc_id
+							ds_tag.name = tag
+							ds_tag.save()
 
-					ds.add_tag(ds_tag)
+						ds.add_tag(ds_tag)
 				ds.save()
 
 def docnav_runner(args, dl_dir):

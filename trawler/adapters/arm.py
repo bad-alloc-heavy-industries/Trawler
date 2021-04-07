@@ -136,18 +136,19 @@ def collect_datasheets(driver, doc_types):
 				tags = tags_row.find_elements_by_xpath('.//span')
 				for tag in tags:
 					for t in tag.text.split(' '):
-						try:
-							te = DatasheetTag \
-								.where('scraper_id', '=', sc_id) \
-								.where('name', '=', t) \
-								.first_or_fail()
-						except:
-							te = DatasheetTag()
-							te.scraper_id = sc_id
-							te.name = t
-							te.save()
+						if t != '':
+							try:
+								te = DatasheetTag \
+									.where('scraper_id', '=', sc_id) \
+									.where('name', '=', t) \
+									.first_or_fail()
+							except:
+								te = DatasheetTag()
+								te.scraper_id = sc_id
+								te.name = t
+								te.save()
 
-						ds.add_tag(te)
+							ds.add_tag(te)
 
 			ds.save()
 
