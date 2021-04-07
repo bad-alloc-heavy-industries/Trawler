@@ -19,6 +19,12 @@ The following source adapters are included with Trawler:
  * `usb-if` - Download the documentation from `https://www.usb.org/documents`
  * `renasas` - Download the documentation from `https://www.renesas.com/us/en/support/document-search`
 
+The following source adapters are planned:
+ * `ti` - Download the documentation for Texas Instruments.
+ * `st` - Download the documentation from ST.
+ * `microchip` - Download the documentation from Microchip.
+ * `micron` - Download the documentation from Micron
+
 If there is not an adapter in this list you want, feel free to open an issue or contribute it yourself!
 
 ### Meta Adapters
