@@ -17,8 +17,6 @@ The following source adapters are included with Trawler:
  * `arm` - Download documentation from `https://developer.arm.com/documentation`
  * `xilinx` - Download the documentation from the Xilinx DocNav service
  * `usb-if` - Download the documentation from `https://www.usb.org/documents`
-
-The following source adapters are planned:
  * `renasas` - Download the documentation from `https://www.renesas.com/us/en/support/document-search`
 
 If there is not an adapter in this list you want, feel free to open an issue or contribute it yourself!
