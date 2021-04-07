@@ -206,5 +206,5 @@ def parser_init(parser):
 		help = 'Also archive the web-only content and monolithic HTML pages',
 	)
 
-def adapter_main(args, driver, dl_dir):
+def adapter_main(args, driver, driver_options, dl_dir):
 	return docnav_runner(args, dl_dir)

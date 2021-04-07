@@ -159,6 +159,20 @@ def main():
 		help = 'Run the Selenium WebDriver heedlessly'
 	)
 
+	wd_options.add_argument(
+		'--headless-height', '-Y',
+		type = str,
+		default = config.DEFAULT_WD_HEADLESS_RES[0],
+		help = 'Specify the hight of the headless window'
+	)
+
+	wd_options.add_argument(
+		'--headless-width', '-X',
+		type = str,
+		default = config.DEFAULT_WD_HEADLESS_RES[1],
+		help = 'Specify the width of the headless window'
+	)
+
 	# Maybe one day
 	# wd_options.add_argument(
 	# 	'--proxy', '-P',
@@ -213,9 +227,15 @@ def main():
 	# WebDriver Initialization
 	inf(f'Using the {args.webdriver} WebDriver')
 	if args.webdriver == config.WebdriverBackend.Chrome:
+		wd_opts = webdriver.chrome.options.Options()
 		wd = webdriver.Chrome
+		if args.headless:
+			wd_opts.add_argument('--headless')
+			wd_opts.add_argument(f'--window-size={args.headless_width},{args.headless_height}')
 	elif args.webdriver == config.WebdriverBackend.FireFox:
 		wd = webdriver.Firefox
+		wd_opts = webdriver.firefox.options.Options()
+
 	else:
 		err('Unknown WebDriver, what?')
 		return 1
@@ -244,4 +264,4 @@ def main():
 		os.mkdir(dl_dir)
 
 	# Actually run the adapter
-	return adpt['main'](args, wd, dl_dir)
+	return adpt['main'](args, wd, wd_opts, dl_dir)

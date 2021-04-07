@@ -177,10 +177,10 @@ def parser_init(parser):
 		help = 'ARM Documentation types to download'
 	)
 
-def adapter_main(args, driver, dl_dir):
+def adapter_main(args, driver, driver_options, dl_dir):
 	sc_id = Scraper.where('name', '=', ADAPTER_NAME).first_or_fail().id
 	if not args.skip_collect or not args.skip_extract:
-		with driver() as wd:
+		with driver(options = driver_options) as wd:
 			if not args.skip_collect:
 				collect_datasheets(wd, args.arm_doc_type)
 

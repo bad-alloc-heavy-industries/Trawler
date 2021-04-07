@@ -34,16 +34,18 @@ TRAWLER_DL_DIR = os.path.join(XDG_DOCUMENTS_DIR, TRAWLER_NAME)
 
 # ==== Default Settings ==== #
 DEFAULT_OUTPUT_DIR = TRAWLER_DL_DIR
-# TODO: Make use of these settings
 DEFAULT_TIMEOUT = 120
 DEFAULT_RETRY_COUNT = 3
 DEFAULT_DOWNLOAD_DELAY = 3
+# TODO: Make use of these settings
 DEFAULT_PROFILE_DIRECTORY = os.path.join(TRAWLER_CACHE, '.webdriver_profile')
 # END TODO
 
 DEFAULT_DATABASE = os.path.join(TRAWLER_CACHE, 'datasheets.db')
 DEFAULT_WEBDRIVER = WebdriverBackend.Chrome
 DEFAULT_WD_HEADLESS = False
+DEFAULT_WD_HEADLESS_RES = (1920, 1080)
+
 
 # ==== Database Settings ==== #
 DATABASE = {
