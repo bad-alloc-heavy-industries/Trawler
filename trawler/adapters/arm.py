@@ -201,6 +201,7 @@ def parser_init(parser):
 	)
 
 def adapter_main(args, driver, dl_dir):
+	sc_id = Scraper.where('name', '=', ADAPTER_NAME).first_or_fail().id
 	if not args.skip_collect:
 		collect_datasheets(driver, args.arm_doc_type)
 
