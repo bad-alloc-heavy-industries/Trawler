@@ -190,7 +190,7 @@ def parser_init(parser):
 	xilinx_options = parser.add_argument_group('Xilinx adapter options')
 
 	xilinx_options.add_argument(
-		'--dont-group', '-D',
+		'--dont-group', '-G',
 		dest = 'xilinx_doc_group',
 		default = False,
 		action = 'store_true',
