@@ -185,7 +185,7 @@ def adapter_main(args, driver, driver_options, dl_dir):
 				collect_datasheets(wd, args.arm_doc_type)
 
 			if not args.skip_extract:
-				sheets = Datasheet.all()
+				sheets = Datasheet.where('url', '!=', 'NULL').where('scraper_id', '=', sc_id).get()
 				with tqdm(
 						miniters = 1, total = len(sheets),
 					) as bar:
