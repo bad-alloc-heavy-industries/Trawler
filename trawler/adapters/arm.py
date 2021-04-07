@@ -176,19 +176,21 @@ def parser_init(parser):
 
 def adapter_main(args, driver, dl_dir):
 	sc_id = Scraper.where('name', '=', ADAPTER_NAME).first_or_fail().id
-	if not args.skip_collect:
-		collect_datasheets(driver, args.arm_doc_type)
+	if not args.skip_collect or not args.skip_extract:
+		with driver() as wd:
+			if not args.skip_collect:
+				collect_datasheets(wd, args.arm_doc_type)
 
-	if not args.skip_extract:
-		sheets = Datasheet.all()
-		with tqdm(
-				miniters = 1, total = len(sheets),
-			) as bar:
-				for ds in sheets:
-					bar.set_description(ds.title)
-					if extract_datasheet(driver, ds):
-						bar.update(1)
-	driver.close()
+			if not args.skip_extract:
+				sheets = Datasheet.all()
+				with tqdm(
+						miniters = 1, total = len(sheets),
+					) as bar:
+						for ds in sheets:
+							bar.set_description(ds.title)
+							if extract_datasheet(wd, ds):
+								bar.update(1)
+
 	if not args.skip_download:
 		sheets = Datasheet.where('url', '!=', 'NULL').where('scraper_id', '=', sc_id).get()
 		with tqdm(
@@ -196,7 +198,7 @@ def adapter_main(args, driver, dl_dir):
 			) as bar:
 				for ds in sheets:
 					bar.set_description(fixup_title(ds.title))
-					if download_datasheet(dl_dir, ds):
+					if download_resource(dl_dir, ds):
 						bar.update(1)
 
 

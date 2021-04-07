@@ -240,5 +240,4 @@ def main():
 		os.mkdir(dl_dir)
 
 	# Actually run the adapter
-	with wd() as driver:
-		return adpt['main'](args, driver, dl_dir)
+	return adpt['main'](args, wd, dl_dir)
