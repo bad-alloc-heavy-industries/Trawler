@@ -62,6 +62,7 @@ Trawler supports the following settings globally:
  * `--skip-collect / -C` - Skip the datasheet collection stage for the adapter.
  * `--skip-extract / -E` - Skip the extraction stage for the adapter.
  * `--skip-download / -D` - Skip the download stage for the adapter.
+ * `--user-agent / -A` - Specify the user-agent to use when downloading files.
 
 The following settings are used for the WebDriver, and therefore only effect the adapters / stages that use it:
  * `--profile-directory / -p` - Specify the WebDriver profile directory.
