@@ -26,12 +26,34 @@ from ..db import Datasheet, DatasheetTag, Scraper
 
 from bs4 import BeautifulSoup
 
+@enum.unique
+class DocumentSource(Enum):
+	DocNav = enum.auto()
+	Web    = enum.auto()
+
+	def __str__(self) -> str:
+		return self.name
+
+	@staticmethod
+	def from_string(s):
+		try:
+			return DocumentSource[s]
+		except KeyError:
+			raise ValueError()
+
 ADAPTER_NAME = 'xilinx'
 ADAPTER_DESC = 'Xilinx datasheet adapter'
 
 XILINX_DOCNAV_ROOT = 'https://xilinx.com/support/documentation/navigator'
 XILINX_HUBS_INDEX = f'{XILINX_DOCNAV_ROOT}/xhubs.xml'
 XILINX_DOCS_INDEX = f'{XILINX_DOCNAV_ROOT}/xdocs.xml'
+
+def extract_datasheet(driver, ds):
+	tlog(f'  => Extracting datasheet {ds.id} from {ds.src}')
+
+def collect_datasheets(driver, doc_types):
+	sc_id = Scraper.where('name', '=', ADAPTER_NAME).first_or_fail().id
+
 
 def docnav_collect_docs(args):
 	log(f'Downloading doc index from {XILINX_DOCS_INDEX}')
@@ -232,4 +254,11 @@ def parser_init(parser):
 	)
 
 def adapter_main(args, driver, driver_options, dl_dir):
-	return docnav_runner(args, dl_dir)
+	if args.xilinx_doc_source == DocumentSource.DocNav:
+		return docnav_runner(args, dl_dir)
+	elif args.xilinx_doc_source == DocumentSource.Web:
+		with driver(options = driver_options) as wd:
+			return web_runner(args, wd, dl_dir)
+	else:
+		err(f'Unknown Xilinx documentation source {args.xilinx_doc_source}!')
+		return 1
