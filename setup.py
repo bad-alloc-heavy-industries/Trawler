@@ -17,6 +17,11 @@ setup(
 		'beautifulsoup4',
 		'lxml'
 	],
+	entry_points = {
+		'console_scripts': [
+			'trawler = trawler:main',
+		]
+	},
 	packages = find_packages(),
 	project_urls = {
 		'Source Code': 'https://github.com/bad-alloc-heavy-industries/Trawler',
