@@ -229,7 +229,7 @@ def main():
 	# Initialize the download directory if not done so
 	if not os.path.exists(args.output):
 		wrn(f'Output directory {args.output} does not exist, creating')
-		os.mkdirs(args.output)
+		os.mkdir(args.output)
 
 	# Initialize the Database
 	dbc = config.DATABASE
