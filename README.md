@@ -116,6 +116,8 @@ cd Trawler
 pip3 install --user --editable '.'
 ```
 
+**NOTE:** The adapters that need a WebDriver will only work if you have one installed for selenium to use!
+
 ## Important Notes
 
  * Some adapters won't work if the WebDriver viewport is smaller than 1920x1080, you can possibly fix this by running the WebDriver headless with the correct virtual size if the WebDriver supports it.
